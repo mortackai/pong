@@ -4,6 +4,7 @@ from math import pi
  
 # Initialize the game engine
 pygame.init()
+pygame.font.init()
  
 # Define the colors we will use in RGB format
 BLACK = (  0,   0,   0)
@@ -26,7 +27,9 @@ ball_y_pos = 250
 velx = -5
 vely = -5
 AI_y = 50
-AI_speed = 5
+AI_speed = 2
+player1_score = 0
+player2_score = 0
  
 while not done:
  
@@ -64,11 +67,17 @@ while not done:
         velx = -velx
         
     if ball_x_pos > 1200:
-        velx = -velx
+        #reposition ball
+        ball_x_pos = 500
+        ball_y_pos = 250
+        player1_score = player1_score + 1
         print("player 1 scored")
 
     if ball_x_pos < -200:
-        velx = -velx
+        #reposition ball
+        ball_x_pos = 500
+        ball_y_pos = 250
+        player2_score = player2_score + 1
         print("player 2 scored")
 
         
@@ -85,6 +94,23 @@ while not done:
         AI_y = AI_y - AI_speed
 
 
+    #score
+    font = pygame.font.SysFont(None, 72)
+    text1 = font.render(str(player1_score), True, WHITE)
+    screen.blit(text1,(400,0))
+
+    text2 = font.render(str(player2_score), True, WHITE)
+    screen.blit(text2,(600,0))
+
+    if player1_score > 9:
+        text3 = font.render("Player 1 Wins!", True, WHITE)
+        screen.blit(text3,(width/2-150,height/2))
+        velx = 0
+    if player2_score > 9:
+        text3 = font.render("Player 2 Wins!", True, WHITE)
+        screen.blit(text3,(width/2-150,height/2))
+        velx = 0
+    
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
     pygame.display.flip()
