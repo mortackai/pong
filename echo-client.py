@@ -1,3 +1,5 @@
+# Originally from https://realpython.com/python-sockets/#echo-server
+
 #!/usr/bin/env python3
 
 import socket
