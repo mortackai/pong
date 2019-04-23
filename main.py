@@ -1,16 +1,8 @@
 import module as M
 
 
-M.menu.display_menu("Main Menu", "Single Player", "Multi-Player")
+M.menu.two_option_menu("Main Menu", "Single Player", "Multi-Player")
 
-print(M.menu.display_menu.selection)
-
-'''
-if M.chosen == 0:
-    M.menu.display_menu("difficulty", "normal", "Hard")
-if M.chosen == 1:
-    M.menu.display_menu("Game Mode", "Split-Screen", "Host", "Join")
-'''
 
 
 
