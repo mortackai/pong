@@ -3,7 +3,59 @@ import pygame
 from math import pi
 import keyboard
 import time
- 
+
+# neither mode will run unless called in menu
+done = True
+multi_local_done = True
+multi_mode_chosen = 0
+difficulty = 5
+
+# this input needs to be sanitized
+
+# game mode
+print("Select Game Mode")
+print("1) Single Player")
+print("2) Multiplayer")
+game_mode_chosen = int(input())
+
+# single player - difficulty
+if game_mode_chosen == 1:
+    print("")
+    difficulty = int(input("Enter a difficulty 1-9: "))
+    done = False
+
+# multiplayer - mode
+if game_mode_chosen == 2:
+    print("")
+    print("Multiplayer")
+    print("")
+    print("1) Splitscreen")
+    print("2) Host")
+    print("3) Join")
+    multi_mode_chosen = int(input())
+
+# splitscreen - difficulty
+if multi_mode_chosen == 1:
+    print("")
+    print("Splitscreen")
+    difficulty = int(input("Enter ball speed 1-9: "))
+    multi_local_done = False
+
+# host
+if multi_mode_chosen == 2:
+    print("")
+    print("Host")
+    print("waiting for connection...")
+
+# join
+if multi_mode_chosen == 3:
+    print("")
+    print("Join")
+    print("")
+    host_ip = input("Enter host IP address: ")
+    print("connecting...")
+
+
 # Initialize the game engine and font
 pygame.init()
 pygame.font.init()
@@ -12,146 +64,15 @@ pygame.font.init()
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 
-#this input needs to be sanitized
-#select difficulty of the game
-difficulty = 5 #int(input("Enter 1-9 for difficulty: "))
-
 # Set the height and width of the screen
 size = width, height =  [1000, 500]
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("pong!")
 
-#Loop until the user clicks the close button.
-done = False
-multi_local_done = False
+# Loop until the user clicks the close button.
 clock = pygame.time.Clock()
 
-#menu screen
-menu = False
-difficulty_menu = True
-multi_menu = True
-menu1 = 0
-menu2 = 0
-
-
-#initial menu to select single or multi player
-while menu == False:
-    clock.tick(20)
-    screen.fill(BLACK)
-    font = pygame.font.SysFont(None, 72)
-    text_game_mode = font.render("Select Game Mode", True, WHITE)
-    text_single_player = font.render("Single Player", True, WHITE)
-    text_multi_player = font.render("Multi-Player", True, WHITE)
-    screen.blit(text_game_mode,(width/4,100))
-    screen.blit(text_single_player,(width/4,200))
-    screen.blit(text_multi_player,(width/4,250))
-    
-    if menu1 == 0:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
-    if menu1 == 1:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
-
-    if keyboard.is_pressed('w') or keyboard.is_pressed('UP'):
-        menu1 = 0
-    if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN'):
-        menu1 = 1
-
-    pygame.display.flip()
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            done = True
-            menu = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu1 == 0:
-            difficulty_menu = False
-            menu = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu1 == 1:
-            multi_menu = False
-            menu = True
-
-#second menu for singleplayer to select difficulty
-while difficulty_menu == False:
-    clock.tick(20)
-    screen.fill(BLACK)
-    font = pygame.font.SysFont(None, 72)
-    text_difficulty = font.render("Select difficulty", True, WHITE)
-    text_normal = font.render("Normal", True, WHITE)
-    text_hard = font.render("Hard", True, WHITE)
-    screen.blit(text_difficulty,(width/4,100))
-    screen.blit(text_normal,(width/4,200))
-    screen.blit(text_hard,(width/4,250))
-    if menu2 == 0:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
-    if menu2 == 1:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
-
-    pygame.display.flip()
-
-    if keyboard.is_pressed('w') or keyboard.is_pressed('UP'):
-        menu2 = 0
-    if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN'):
-        menu2 = 1
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            done = True
-            menu = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu2 == 0:
-            difficulty = 5
-            difficulty_menu = True
-            multi_menu = True
-            menu = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu2 == 1:
-            difficulty = 9
-            difficulty_menu = True
-            multi_menu = True
-            menu = True
-
-#second menu for multiplayer to select splitscreen, host a game or join one
-while multi_menu == False:
-    clock.tick(10)
-    screen.fill(BLACK)
-    font = pygame.font.SysFont(None, 72)
-    text_multi = font.render("Select multi options", True, WHITE)
-    text_split = font.render("Split-Screen", True, WHITE)
-    text_host = font.render("Host", True, WHITE)
-    text_join = font.render("Join", True, WHITE)
-    screen.blit(text_multi,(width/4,100))
-    screen.blit(text_split,(width/4,200))
-    screen.blit(text_host,(width/4,250))
-    screen.blit(text_join,(width/4,300))
-    if menu2 == 0:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
-    if menu2 == 1:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
-    if menu2 == 2:
-        pygame.draw.circle(screen, WHITE, [int(width/4-10),325], 5)
-
-    pygame.display.flip()
-
-    if keyboard.is_pressed('w') or keyboard.is_pressed('UP') and menu2 > 0:
-        menu2 -= 1
-    if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN') and menu2 < 2:
-        menu2 += 1
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            done = True
-            menu = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu2 == 0:
-            multi_menu = True
-            Multi_local_done = True
-            done = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu2 == 1:
-            multi_menu = True
-            Multi_local_done = True
-            done = True
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and menu2 == 2:
-            multi_menu = True
-            Multi_local_done = True
-            done = True
-
-#this stuff needs to be organized
+# this stuff needs to be organized
 ball_pos_x = width/2
 ball_pos_y = height/2
 ball_vel_x = -difficulty
@@ -168,7 +89,7 @@ wait = False
 
 while not done:
  
-    #limits while loop to max of ___ times per second.
+    # limits while loop to max of ___ times per second.
     clock.tick(100)
      
     for event in pygame.event.get(): # User did something
@@ -181,16 +102,16 @@ while not done:
     # Clear the screen and set the screen background
     screen.fill(BLACK)
 	
-    #controls
+    # controls
     pygame.mouse.set_visible(False)
 	
-    #mouse controls
+    # mouse controls
     current_mouse_y = pygame.mouse.get_pos()
     if current_mouse_y != last_mouse_y:
         mouse_pos = player_pos_x, player1_pos_y = pygame.mouse.get_pos()
     last_mouse_y = current_mouse_y
 
-    #keyboard controls
+    # keyboard controls
     if keyboard.is_pressed('w'):
         player1_pos_y -= 10
     if keyboard.is_pressed('s'):
@@ -201,45 +122,45 @@ while not done:
     pygame.draw.rect(screen, WHITE, [980, player2_pos_y, 10, 100], 0)
     pygame.draw.circle(screen, WHITE, [int(ball_pos_x), int(ball_pos_y)], 5)
 
-    #move the ball everyframe by its velocity
+    # move the ball everyframe by its velocity
     ball_pos_x += ball_vel_x
     ball_pos_y += ball_vel_y
 
-    #bounce ball off left paddle
+    # bounce ball off left paddle
     if ball_pos_x < 20 and ball_pos_x > 10 and ball_pos_y > player1_pos_y-50 and ball_pos_y < player1_pos_y+50:
         ball_vel_x = -ball_vel_x
 
-    #bounce ball off right paddle
+    # bounce ball off right paddle
     if ball_pos_x > width-20 and ball_pos_x < width-10 and ball_pos_y > player2_pos_y and ball_pos_y < player2_pos_y+100:
         ball_vel_x = -ball_vel_x
 
-    #player 1 scores
+    # player 1 scores
     if ball_pos_x > 1200:
         ball_pos_x = 500
         ball_pos_y = 250
         player1_score += 1
 
-    #player 2 scores
+    # player 2 scores
     if ball_pos_x < -200:
         ball_pos_x = 500
         ball_pos_y = 250
         player2_score += 1
 
         
-    #bounce ball up and down
+    # bounce ball up and down
     if ball_pos_y > height:
         ball_vel_y = -ball_vel_y
     if ball_pos_y < 0:
         ball_vel_y = -ball_vel_y
 
-    #enemy AI
+    # enemy AI
     if ball_pos_y > player2_pos_y+50:
         player2_pos_y += AI_speed
     if ball_pos_y < player2_pos_y:
         player2_pos_y -= AI_speed
 
 
-    #score
+    # score
     font = pygame.font.SysFont(None, 72)
     text1 = font.render(str(player1_score), True, WHITE)
     screen.blit(text1,(400,0))
@@ -256,10 +177,10 @@ while not done:
         screen.blit(text3,(width/2-150,height/2))
         ball_vel_x = 0
     
-    #update screen command
+    # update screen command
     pygame.display.flip()
 
-    #press a button to start the game
+    # press a button to start the game
     if i == 0:
         font = pygame.font.SysFont(None, 72)
         text1 = font.render("Press space when ready...", True, WHITE)
