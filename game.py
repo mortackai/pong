@@ -126,11 +126,11 @@ while not done:
     ball_pos_y += ball_vel_y
 
     # bounce ball off left paddle
-    if ball_pos_x < 20 and ball_pos_x > 10 and ball_pos_y > player1_pos_y - 50 and ball_pos_y < player1_pos_y + 50:
+    if 20 > ball_pos_x > 10 and player1_pos_y - 50 < ball_pos_y < player1_pos_y + 50:
         ball_vel_x = -ball_vel_x
 
     # bounce ball off right paddle
-    if ball_pos_x > width - 20 and ball_pos_x < width - 10 and ball_pos_y > player2_pos_y and ball_pos_y < player2_pos_y + 100:
+    if width - 20 < ball_pos_x < width - 10 and player2_pos_y < ball_pos_y < player2_pos_y + 100:
         ball_vel_x = -ball_vel_x
 
     # player 1 scores
