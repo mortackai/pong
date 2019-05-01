@@ -1,9 +1,32 @@
-import module as M
+import gui_menu as M
+import socket
 
+host_ip = socket.gethostbyname(socket.gethostname())
 
-M.menu.two_option_menu("Main Menu", "Single Player", "Multi-Player")
+m1 = M.menu("Main Menu", "Single Player", "Multi-Player", "blah")
+m2 = M.menu("Difficulty", "Normal", "Hard", "null")
+m3 = M.menu("Multiplayer", "Splitscreen", "Host", "Join")
+m4 = M.menu("Host " + str(host_ip), "", "", "")
+m5 = M.menu("Join", "", "", "")
 
+m1.two_option_menu()
 
+if m1.selection == 0:
+    m2.two_option_menu()
+
+if m1.selection == 1:
+    m3.three_option_menu()
+
+if m3.selection == 0:
+    m2.two_option_menu()
+
+if m3.selection == 1:
+    m4.two_option_menu()
+
+if m3.selection == 2:
+    m4.two_option_menu()
+    
+m5.two_option_menu()
 
 
 '''main menu
@@ -25,7 +48,7 @@ join
 '''
 
 '''Splitscreen
-ball speed
+difficulty
 normal
 fast
 '''

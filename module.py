@@ -38,40 +38,55 @@ class menu:
     done = False
     selection = 0
     while not done:
-        clock.tick(20)
-        screen.fill(BLACK)
-        font = pygame.font.SysFont(None, 72)
-        text_title = font.render(title, True, WHITE)
-        text_option1 = font.render(option1, True, WHITE)
-        text_option2 = font.render(option2, True, WHITE)
-        screen.blit(text_title,(width/4,100))
-        screen.blit(text_option1,(width/4,200))
-        screen.blit(text_option2,(width/4,250))
-        
-        if selection == 0:
-            pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
-        if selection == 1:
-            pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
+      clock.tick(20)
+      screen.fill(BLACK)
+      font = pygame.font.SysFont(None, 72)
+      text_title = font.render(title, True, WHITE)
+      text_option1 = font.render(option1, True, WHITE)
+      text_option2 = font.render(option2, True, WHITE)
+      screen.blit(text_title,(width/4,100))
+      screen.blit(text_option1,(width/4,200))
+      screen.blit(text_option2,(width/4,250))
 
-        if keyboard.is_pressed('w') or keyboard.is_pressed('UP'):
-            selection = 0
-        if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN'):
+      if selection == 0:
+          pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
+      if selection == 1:
+          pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
+
+      if keyboard.is_pressed('w') or keyboard.is_pressed('UP'):
+          selection = 0
+      if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN'):
+          selection = 1
+
+      pygame.display.flip()
+
+      # press enter or space
+      if keyboard.is_pressed('ENTER') or keyboard.is_pressed('SPACE') and selection:
+            done = True
             selection = 1
+            return
+      if keyboard.is_pressed('ENTER') or keyboard.is_pressed('SPACE') and selection:
+            done = True
+            selection = 1
+            return
 
-        pygame.display.flip()
 
-'''
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                done = True
-                return
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and selection == 0:
-                print(option1 + " has been selected")
-                return
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and selection == 1:
-                print(option2 + " has been selected")
-                return
-'''
+
+
+
+      for event in pygame.event.get():
+          if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+              done = True
+              return
+
+      
+          if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and selection == 0:
+              print(option1 + " has been selected")
+              return
+          if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and selection == 1:
+              print(option2 + " has been selected")
+              return
+
 
 
 
