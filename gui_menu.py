@@ -59,3 +59,37 @@ class menu:
                 done = True
 
             pygame.display.flip()
+
+    def three_option_menu(self):
+        done = False
+        clock = pygame.time.Clock()
+        while not done:
+            if keyboard.is_pressed('ESC'):
+                done = True
+            clock.tick(20)
+            screen.fill(BLACK)
+            font = pygame.font.SysFont(None, 72)
+            text_title = font.render(self.title, True, WHITE)
+            text_option1 = font.render(self.option1, True, WHITE)
+            text_option2 = font.render(self.option2, True, WHITE)
+            text_option3 = font.render(self.option3, True, WHITE)
+            screen.blit(text_title,(width/4,100))
+            screen.blit(text_option1,(width/4,200))
+            screen.blit(text_option2,(width/4,250))
+            screen.blit(text_option3,(width/4,300))
+
+            if self.selection == 0:
+                pygame.draw.circle(screen, WHITE, [int(width/4-10),225], 5)
+            if self.selection == 1:
+                pygame.draw.circle(screen, WHITE, [int(width/4-10),275], 5)
+                
+            if keyboard.is_pressed('w') or keyboard.is_pressed('UP'):
+                self.selection = 0
+            if keyboard.is_pressed('s') or keyboard.is_pressed('DOWN'):
+                self.selection = 1
+
+            if keyboard.is_pressed('ENTER') or keyboard.is_pressed('SPACE'):
+                done = True
+
+            pygame.display.flip()
+
