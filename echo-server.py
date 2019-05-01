@@ -1,5 +1,3 @@
-# Originally from https://realpython.com/python-sockets/#echo-server
-
 #!/usr/bin/env python3
 
 import socket
@@ -18,4 +16,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             if not data:
                 break
             conn.sendall(data)
+            player2_pos_y = data
+            print(player2_pos_y.decode())
 
